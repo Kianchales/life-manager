@@ -1,0 +1,13 @@
+# 本机实例配置（不随包分发；模板见 references/library.config.template.json）
+references/library.config.json
+
+# 排查快照（不进库）
+_backup*/
+
+# Python 噪声
+__pycache__/
+*.pyc
+
+# 系统噪声
+.DS_Store
+Thumbs.db
