@@ -76,6 +76,8 @@
 
 ## 📌 近期更新
 
+- **1.1.1**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
+
 - **1.1.0**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
 
 - **1.0.0**（2026-10-12）：**更名 `life-manager` ＋ 独立成仓**——脱离 `ibd-skills` 集合仓（原前缀 `ibd-` 属投行线命名域，与本包「个人 Obsidian 库运维」定位无关），发布通道改为单包仓 **`Kianchales/life-manager`**（仓根即包）；技能树分类改归 `knowledge`（frontmatter 显式声明）。零规则变更。
