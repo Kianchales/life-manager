@@ -81,6 +81,8 @@
 
 ## 📌 近期更新
 
+- **1.5.1**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
+
 - **1.5.0**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
 
 - **1.4.2**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
@@ -143,7 +145,7 @@ README.md            本文件
 CHANGELOG.md         版本记录
 scripts/
   check_log_archive.py  工作日志归档闸（检查／执行节级归档；接续流程第 2 步调用）
-  export_todo.py      项目待办导出器（汇总/明细 CSV ＋ 按人 txt；只导未完成，落下载目录）
+  export_todo.py      项目待办导出器（单 Excel 明细表，排版含逾期标红；只导未完成，落下载目录）
 references/
   bootstrap.md       从零建库引导
   domains.md         同步域元数据 schema 与四域管理规则

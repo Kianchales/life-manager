@@ -4,7 +4,7 @@ slug: life-manager
 displayName: 个人知识库操作规则（Personal Library）
 summary: "使用者私人 Obsidian 库操作规则——AI 工作日志铁律与办结归档、待办写入路径（二写入＋一视图；模板流加待办＋待办导出器）、新会话接续、工作区边界铁律、AI 工作区目录约定。"
 description: "操作用户的私人 Obsidian 库（库名与库根由本包 [library.config.json](references/library.config.json) 解析）：AI 工作日志记录铁律与办结归档（双文件：当月 YYYY-MM-待办.md + 办结 YYYY-MM-办结.md，零未完成且距今 ≥7 天的节整节迁出）、待办写入路径（二写入＋一视图；模板流加待办——AI 回模板、用户改完回传、校验退回；条线由使用者口头指定 AI 不判线）、待办导出器 scripts/export_todo.py（只导未完成、落下载目录、发归人）、成员统计视图的「须存在」判据（缺视图则静默不聚合）、边界铁律（02 工作=用户业务跟踪区 AI 不跟踪）、新会话接续三入口、04 AI Work 目录约定（只放活文件；交接单放面上用完即删、发布档案不留本地）。当任务涉及该库的写入/待办管理/日志记录时，必须先加载本 skill。"
-version: 1.5.0
+version: 1.5.1
 category: knowledge
 agent_created: true
 ---
