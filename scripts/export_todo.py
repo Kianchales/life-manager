@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """export_todo.py — 项目待办导出器：读项目待办 md，出一个排版好的 Excel 明细表。
 
-数据源：项目文件夹的 `待办事项.md`（结构：`## <条线>` → `### <负责人>` → `- [ ] 任务行`）。
+数据源：项目文件夹的 `待办事项.md`（结构：`# <条线>` → `## <负责人>` → `- [ ] 任务行`）。
 产物（落系统下载目录，可用 --out 覆盖）：`<前缀>_待办.xlsx`，单 sheet 明细：
   列：条线 / 负责人 / 事项 / 截止日期 / 状态
   排版：表头加粗填色、冻结首行、自动列宽、逾期整行标红、按负责人分区隔行底色；
@@ -54,12 +54,16 @@ def parse_todo(path):
     lineset = parse_lineset("\n".join(lines))
     rows, cur_line, cur_person = [], None, None
     for ln in lines:
+        # 层级：# <条线> → ## <负责人> → - [ ] 任务行
         if ln.startswith("## "):
-            h = ln[3:].strip()
-            cur_line = h if h in lineset else ("待办" if h in ("待办", "主题") else "未分类")
+            cur_person = ln[3:].strip()
             continue
-        if ln.startswith("### "):
-            cur_person = ln[4:].strip()
+        if ln.startswith("# "):
+            h = ln[2:].strip()
+            if not h or h == "待办事项" or "待办总表" in h:
+                continue                      # 文件标题与视图节不算条线
+            cur_line = h if h in lineset else "未分类"
+            cur_person = None                 # 进入新条线，负责人归属重置
             continue
         if ln.startswith("- [ ]"):
             m = DUE.search(ln)
