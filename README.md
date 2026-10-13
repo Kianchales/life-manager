@@ -76,6 +76,8 @@
 
 ## 📌 近期更新
 
+- **1.3.0**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
+
 - **1.2.0**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
 
 - **1.1.2**（2026-10-13）：见 `CHANGELOG.md` 对应条目。
@@ -126,6 +128,8 @@ MIT
 SKILL.md             操作规则浓缩（接续三入口/日志铁律/待办路径/边界）
 README.md            本文件
 CHANGELOG.md         版本记录
+scripts/
+  check_log_archive.py  工作日志归档闸（检查／执行节级归档；接续流程第 2 步调用）
 references/
   bootstrap.md       从零建库引导
   domains.md         同步域元数据 schema 与四域管理规则
