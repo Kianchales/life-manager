@@ -3,8 +3,8 @@ name: life-manager
 slug: life-manager
 displayName: 个人知识库操作规则（Personal Library）
 summary: "使用者私人 Obsidian 库操作规则——AI 工作日志铁律与办结归档、待办写入路径（二写入＋一视图；模板流加待办＋待办导出器）、新会话接续、工作区边界铁律、AI 工作区目录约定。"
-description: "操作用户的私人 Obsidian 库（库名与库根由本包 [library.config.json](references/library.config.json) 解析）：AI 工作日志记录铁律与办结归档（双文件：当月 YYYY-MM-待办.md + 办结 YYYY-MM-办结.md，零未完成且距今 ≥7 天的节整节迁出）、待办写入路径（二写入＋一视图；模板流加待办——AI 回模板、用户改完回传、校验退回；条线由使用者口头指定 AI 不判线）、待办导出器 scripts/export_todo.py（只导未完成、落下载目录、发归人）、成员统计视图的「须存在」判据（缺视图则静默不聚合）、边界铁律（02 工作=用户业务跟踪区 AI 不跟踪）、新会话接续三入口、04 AI Work 目录约定（只放活文件；交接单放面上用完即删、发布档案不留本地）。当任务涉及该库的写入/待办管理/日志记录时，必须先加载本 skill。"
-version: 1.6.1
+description: "操作用户的私人 Obsidian 库（库名与库根由本包 [library.config.json](references/library.config.json) 解析）：AI 工作日志记录铁律与办结归档（双文件：当月 YYYY-MM-待办.md + 办结 YYYY-MM-办结.md，零未完成且距今 ≥7 天的节整节迁出）、待办写入路径（二写入＋一视图；模板流加待办——AI 回模板、用户改完回传、校验退回；条线由使用者口头指定 AI 不判线）、待办导出器 scripts/export_todo.py（只导未完成、落下载目录、发归人）、工作日志月度回顾生成器 scripts/monthly_review.py（同月两文件合读、默认只打印）、办结文件主题索引生成器 scripts/build_log_index.py（只动文件头、幂等可回退）、成员统计视图的「须存在」判据（缺视图则静默不聚合）、边界铁律（02 工作=用户业务跟踪区 AI 不跟踪）、新会话接续三入口、04 AI Work 目录约定（只放活文件；交接单放面上用完即删、发布档案不留本地）。当任务涉及该库的写入/待办管理/日志记录时，必须先加载本 skill。"
+version: 1.9.1
 category: knowledge
 agent_created: true
 ---
@@ -117,6 +117,8 @@ agent_created: true
 - **数据源**：日报的 `◔ AI WORK LOG` 区块 ＋ `04 AI Work/工作日志/` 记录
 - **姿势**：**起草 → 用户确认 → 落盘**（AI 仅起草权）
 - **不碰**：日报本身——**不补建、不代写**；其查询区块与 `◧ Intention` 手写区一律不碰
+- **月度回顾（脚本）**：说「月度回顾」「上个月做了什么」即触发——跑 `python <本 skill 目录>/scripts/monthly_review.py --log-dir "<库根>/04 AI Work/工作日志" [--month YYYY-MM] [--out <path>]`：**同月两文件合读**（`-待办` ＋ `-办结`，节按节日期归月）；默认**只打印不写盘**、`--out` 才落文件；`--month` 省略 ＝ 上一月。产出：**总览**（记录天数／完成／未完成／逾期）· **性质分布**（六类标签 × 条数 × 占比）· **最活跃的若干天** · **未完成清单** · **本月主线**（摘自文件头）。**用途**：月初回顾上月，可作月报正文的素材底稿。
+- **办结文件主题索引（脚本）**：说「给<月>办结做索引」「索引一下办结」即触发——跑 `python <本 skill 目录>/scripts/build_log_index.py --log-dir "<库根>/04 AI Work/工作日志" [--month YYYY-MM] [--apply]`：把该月的**节清单**（节日期 · 主题 · 条数 · 主要性质）压成索引块插在**文件头**（表头之后、第一节之前）。**只动文件头、节内容零改动**；块以 `<!-- lm-index:begin/end -->` 包裹、**重复运行 ＝ 整块替换**（删块即无损回退）；默认**演练**、`--apply` 写盘；`--month` 省略 ＝ 全部办结文件。**归档后重跑一次刷新**（有新节迁入索引会过期）。
 
 ### 项目文件夹标准结构
 
@@ -180,9 +182,9 @@ agent_created: true
 > 依赖来源标注：⬛=随包/本地自建；🟢=可选；🟦=内置。
 
 - **Markdown 库本体**〔⬛随包/本地自建：`{LIB_ROOT}`〕：本 skill 的操作对象；库根由本包 [library.config.json](references/library.config.json) 的 `root` 字段解析（模板 [library.config.template.json](references/library.config.template.json)），文档中记作 `{LIB_ROOT}`、库显示名记作 `{LIB_NAME}`
-- **库侧环境（Obsidian ＋ 插件）**〔🟢可选·使用者自备〕——**推荐装齐**（骨架 33 件里 29 个查询块/看板靠它们渲染），**全不装也能用**（所有规则不依赖插件即可照做，md 源文件是唯一事实源）：
+- **库侧环境（Obsidian ＋ 插件）**〔🟢可选·使用者自备〕——**推荐装齐**（骨架 33 件里 30 个查询块/看板靠它们渲染），**全不装也能用**（所有规则不依赖插件即可照做，md 源文件是唯一事实源）：
   - **Tasks**〔推荐·必需级〕：待办语法与查询（日志/看板/日报 11 个查询块）——缺则待办退回纯 markdown 清单，失去截止日期标记与聚合视图
-  - **Dataview**〔推荐·必需级〕：数据查询（18 个查询块 ＋ Overview 的 dataviewjs）——**须在设置里开启 JavaScript 查询**；缺则查询块显示为代码、**不报错只返空**
+  - **Dataview**〔推荐·必需级〕：数据查询（18 个查询块 ＋ Overview/Home 的 dataviewjs）——**须在设置里开启 JavaScript 查询**；缺则查询块显示为代码、**不报错只返空**
   - **Kanban**〔推荐〕：项目看板拖拽交互——缺则看板退化为普通列表
   - **Periodic Notes ＋ Templater**〔推荐〕：日报/周报/月报一键创建套模板——缺则手动复制模板
   - **Buttons**〔推荐〕：首页周期按钮——缺则手动建日报
